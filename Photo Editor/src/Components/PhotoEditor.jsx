@@ -15,11 +15,14 @@ import {
     Crop,
     Sparkles,
     Palette,
-    ZoomIn
+    ZoomIn,
+    ChevronUp,
+    ChevronDown
 } from 'lucide-react';
 
 const PhotoEditor = () => {
     const [image, setImage] = useState(null);
+    const [isControlsOpen, setIsControlsOpen] = useState(true);
     const [filters, setFilters] = useState({
         brightness: 100,
         contrast: 100,
@@ -34,7 +37,7 @@ const PhotoEditor = () => {
         scale: 100
     });
     const [showOriginal, setShowOriginal] = useState(false);
-    const [activeTab, setActiveTab] = useState('adjust'); // 'adjust' | 'effects' | 'transform'
+    const [activeTab, setActiveTab] = useState('adjust');
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -142,13 +145,13 @@ const PhotoEditor = () => {
     const TabButton = ({ icon: Icon, label, tabName }) => (
         <button
             onClick={() => setActiveTab(tabName)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-200 flex-1 justify-center
                 ${activeTab === tabName
                     ? 'bg-blue-500 text-white'
                     : 'text-gray-600 hover:bg-gray-100'}`}
         >
             <Icon className="w-4 h-4" />
-            <span className="text-sm font-medium">{label}</span>
+            <span className="text-sm font-medium hidden sm:inline">{label}</span>
         </button>
     );
 
@@ -290,14 +293,26 @@ const PhotoEditor = () => {
 
     return (
         <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-lg">
-            <div className="flex items-center gap-2 p-4 border-b">
-                <Sliders className="w-5 h-5 text-blue-500" />
-                <h2 className="text-xl font-semibold text-gray-800">Photo Editor</h2>
+            <div className="flex items-center justify-between p-4 border-b">
+                <div className="flex items-center gap-2">
+                    <Sliders className="w-5 h-5 text-blue-500" />
+                    <h2 className="text-xl font-semibold text-gray-800">Photo Editor</h2>
+                </div>
+                <button
+                    onClick={() => setIsControlsOpen(!isControlsOpen)}
+                    className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+                >
+                    {isControlsOpen ? (
+                        <ChevronDown className="w-5 h-5 text-gray-600" />
+                    ) : (
+                        <ChevronUp className="w-5 h-5 text-gray-600" />
+                    )}
+                </button>
             </div>
 
-            <div className="flex">
-                {/* Left Side - Image Area */}
-                <div className="flex-1 p-6 border-r min-h-[600px] flex items-center justify-center">
+            <div className="flex flex-col md:flex-row">
+                {/* Image Area */}
+                <div className="flex-1 p-4 md:p-6 min-h-[300px] md:min-h-[600px] flex items-center justify-center">
                     {!image ? (
                         <label className="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
                             <div className="flex flex-col items-center justify-center p-6 text-center">
@@ -322,22 +337,20 @@ const PhotoEditor = () => {
                                 className="max-w-full max-h-full rounded-xl shadow-md object-contain"
                                 style={showOriginal ? {} : getImageStyle()}
                             />
-                            {image && (
-                                <button
-                                    className="absolute top-4 right-4 p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    onMouseDown={() => setShowOriginal(true)}
-                                    onMouseUp={() => setShowOriginal(false)}
-                                    onMouseLeave={() => setShowOriginal(false)}
-                                >
-                                    <EyeOff className="w-5 h-5 text-gray-600" />
-                                </button>
-                            )}
+                            <button
+                                className="absolute top-4 right-4 p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                onMouseDown={() => setShowOriginal(true)}
+                                onMouseUp={() => setShowOriginal(false)}
+                                onMouseLeave={() => setShowOriginal(false)}
+                            >
+                                <EyeOff className="w-5 h-5 text-gray-600" />
+                            </button>
                         </div>
                     )}
                 </div>
 
-                {/* Right Side - Controls */}
-                <div className="w-80 p-6 bg-gray-50">
+                {/* Controls Panel */}
+                <div className={`${isControlsOpen ? 'block' : 'hidden'} md:block w-full md:w-80 p-4 md:p-6 bg-gray-50`}>
                     <div className="space-y-6">
                         {/* Tabs */}
                         <div className="flex gap-2 pb-4 border-b">
