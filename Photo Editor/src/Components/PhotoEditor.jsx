@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 
+
 import {
     Sliders,
     SunMedium,
@@ -25,6 +26,7 @@ import {
     Send,
     Linkedin
 } from 'lucide-react';
+import Footer from './Footer';
 
 const PhotoEditor = () => {
     const [image, setImage] = useState(null);
