@@ -16,25 +16,7 @@ const Footer = () => (
 
                 <div className="flex flex-wrap items-center justify-center gap-6">
                     <a
-                        href="https://github.com/harshitpatle"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-blue-400 transition-colors"
-                        aria-label="GitHub"
-                    >
-                        <Github className="w-5 h-5" />
-                    </a>
-                    <a
-                        href="https://instagram.com/harshitpatle.dev"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-pink-400 transition-colors"
-                        aria-label="Instagram (Dev)"
-                    >
-                        <Instagram className="w-5 h-5" />
-                    </a>
-                    <a
-                        href="https://instagram.com/harshit.patle"
+                        href="https://www.instagram.com/coding_version"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-pink-400 transition-colors"
@@ -43,7 +25,7 @@ const Footer = () => (
                         <Instagram className="w-5 h-5" />
                     </a>
                     <a
-                        href="https://youtube.com/@harshitpatle"
+                        href="https://www.youtube.com/@coding_version"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-red-500 transition-colors"
@@ -52,7 +34,7 @@ const Footer = () => (
                         <Youtube className="w-5 h-5" />
                     </a>
                     <a
-                        href="https://t.me/harshitpatle"
+                        href="https://telegram.me/Coding_Version"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-blue-500 transition-colors"
@@ -61,13 +43,31 @@ const Footer = () => (
                         <Send className="w-5 h-5" />
                     </a>
                     <a
-                        href="https://linkedin.com/in/harshitpatle"
+                        href="https://www.linkedin.com/in/harshit-patle"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-blue-600 transition-colors"
                         aria-label="LinkedIn"
                     >
                         <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a
+                        href="https://www.instagram.com/harshit_patle10"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-pink-400 transition-colors"
+                        aria-label="Instagram (Dev)"
+                    >
+                        <Instagram className="w-5 h-5" />
+                    </a>
+                    <a
+                        href="https://github.com/Harshit-Patle"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-400 transition-colors"
+                        aria-label="GitHub"
+                    >
+                        <Github className="w-5 h-5" />
                     </a>
                 </div>
             </div>
