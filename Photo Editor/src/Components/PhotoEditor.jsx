@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
+
 import {
     Sliders,
     SunMedium,
@@ -17,7 +18,12 @@ import {
     Palette,
     ZoomIn,
     ChevronUp,
-    ChevronDown
+    ChevronDown,
+    Github,
+    Instagram,
+    Youtube,
+    Send,
+    Linkedin
 } from 'lucide-react';
 
 const PhotoEditor = () => {
@@ -38,6 +44,7 @@ const PhotoEditor = () => {
     });
     const [showOriginal, setShowOriginal] = useState(false);
     const [activeTab, setActiveTab] = useState('adjust');
+    const [isPressed, setIsPressed] = useState(false);
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -271,6 +278,8 @@ const PhotoEditor = () => {
         }
     };
 
+
+
     const FilterSlider = ({ icon: Icon, label, value, onChange, min, max }) => (
         <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
@@ -291,99 +300,208 @@ const PhotoEditor = () => {
         </div>
     );
 
-    return (
-        <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-lg">
-            <div className="flex items-center justify-between p-4 border-b">
-                <div className="flex items-center gap-2">
-                    <Sliders className="w-5 h-5 text-blue-500" />
-                    <h2 className="text-xl font-semibold text-gray-800">Photo Editor</h2>
+    const ShowOriginalButton = () => {
+        const handlePressStart = (e) => {
+            e.preventDefault(); // Prevent default to avoid unwanted behavior
+            setIsPressed(true);
+            setShowOriginal(true);
+        };
+
+        const handlePressEnd = (e) => {
+            e.preventDefault(); // Prevent default to avoid unwanted behavior
+            setIsPressed(false);
+            setShowOriginal(false);
+        };
+
+        const handlePressCancel = (e) => {
+            e.preventDefault(); // Prevent default to avoid unwanted behavior
+            if (isPressed) {
+                setIsPressed(false);
+                setShowOriginal(false);
+            }
+        };
+
+        return (
+            <button
+                className={`absolute top-4 right-4 p-3 sm:p-2 bg-white rounded-lg shadow-md 
+                    hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 
+                    touch-manipulation select-none
+                    ${isPressed ? 'bg-gray-100' : ''}`}
+                onTouchStart={handlePressStart}
+                onTouchEnd={handlePressEnd}
+                onTouchCancel={handlePressCancel}
+                onMouseDown={handlePressStart}
+                onMouseUp={handlePressEnd}
+                onMouseLeave={handlePressCancel}
+                aria-label="Show original image"
+            >
+                <EyeOff className="w-6 h-6 sm:w-5 sm:h-5 text-gray-600" />
+            </button>
+        );
+    };
+
+
+    const Footer = () => (
+        <footer className="w-full bg-gray-900 text-white py-6">
+            <div className="max-w-6xl mx-auto px-4">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="text-center md:text-left">
+                        <p className="text-sm">© 2024 All Rights Reserved to Harshit Patle</p>
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <a
+                            href="https://github.com/harshitpatle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-blue-400 transition-colors"
+                            aria-label="GitHub"
+                        >
+                            <Github className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://instagram.com/harshitpatle.dev"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-pink-400 transition-colors"
+                            aria-label="Instagram (Dev)"
+                        >
+                            <Instagram className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://instagram.com/harshit.patle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-pink-400 transition-colors"
+                            aria-label="Instagram (Personal)"
+                        >
+                            <Instagram className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://youtube.com/@harshitpatle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-red-500 transition-colors"
+                            aria-label="YouTube"
+                        >
+                            <Youtube className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://t.me/harshitpatle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-blue-500 transition-colors"
+                            aria-label="Telegram"
+                        >
+                            <Send className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://linkedin.com/in/harshitpatle"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-blue-600 transition-colors"
+                            aria-label="LinkedIn"
+                        >
+                            <Linkedin className="w-5 h-5" />
+                        </a>
+                    </div>
                 </div>
-                <button
-                    onClick={() => setIsControlsOpen(!isControlsOpen)}
-                    className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
-                >
-                    {isControlsOpen ? (
-                        <ChevronDown className="w-5 h-5 text-gray-600" />
-                    ) : (
-                        <ChevronUp className="w-5 h-5 text-gray-600" />
-                    )}
-                </button>
+            </div>
+        </footer>
+    );
+
+    return (
+        <div className="w-full bg-white">
+            {/* Header */}
+            <div className="max-w-6xl mx-auto">
+                <div className="flex items-center justify-between p-4 border-b">
+                    <div className="flex items-center gap-2 ">
+                        <Sliders className="w-5 h-5 text-blue-500" />
+                        <h2 className="text-xl font-semibold text-gray-800">Photo Editor</h2>
+                    </div>
+                    <button
+                        onClick={() => setIsControlsOpen(!isControlsOpen)}
+                        className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+                    >
+                        {isControlsOpen ? (
+                            <ChevronDown className="w-5 h-5 text-gray-600" />
+                        ) : (
+                            <ChevronUp className="w-5 h-5 text-gray-600" />
+                        )}
+                    </button>
+                </div>
             </div>
 
-            <div className="flex flex-col md:flex-row">
-                {/* Image Area */}
-                <div className="flex-1 p-4 md:p-6 min-h-[300px] md:min-h-[600px] flex items-center justify-center">
-                    {!image ? (
-                        <label className="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
-                            <div className="flex flex-col items-center justify-center p-6 text-center">
-                                <ImageIcon className="w-12 h-12 mb-3 text-gray-400" />
-                                <p className="mb-2 text-sm text-gray-500">
-                                    <span className="font-semibold">Click to upload</span> or drag and drop
-                                </p>
-                                <p className="text-xs text-gray-400">PNG, JPG or GIF</p>
+            {/* Main Content */}
+            <div className="w-full min-h-screen bg-gray-50">
+                <div className="flex flex-col md:flex-row max-w-[120rem] mx-auto">
+                    {/* Image Area */}
+                    <div className="flex-1 p-4 md:p-6 min-h-[300px] md:min-h-[calc(100vh-88px)] bg-white">
+                        {!image ? (
+                            <label className="flex flex-col items-center justify-center w-full h-full border-2 border-dashed border-gray-300 rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-200">
+                                <div className="flex flex-col items-center justify-center p-6 text-center">
+                                    <ImageIcon className="w-12 h-12 mb-3 text-gray-400" />
+                                    <p className="mb-2 text-sm text-gray-500">
+                                        <span className="font-semibold">Click to upload</span> or drag and drop
+                                    </p>
+                                    <p className="text-xs text-gray-400">PNG, JPG or GIF</p>
+                                </div>
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                />
+                            </label>
+                        ) : (
+                            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+                                <img
+                                    src={image}
+                                    alt="Uploaded preview"
+                                    className="max-w-full max-h-[calc(100vh-200px)] object-contain"
+                                    style={showOriginal ? {} : getImageStyle()}
+                                />
+                                <ShowOriginalButton />
                             </div>
-                            <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                            />
-                        </label>
-                    ) : (
-                        <div className="relative w-full h-full flex items-center justify-center">
-                            <img
-                                src={image}
-                                alt="Uploaded preview"
-                                className="max-w-full max-h-full rounded-xl shadow-md object-contain"
-                                style={showOriginal ? {} : getImageStyle()}
-                            />
-                            <button
-                                className="absolute top-4 right-4 p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                onMouseDown={() => setShowOriginal(true)}
-                                onMouseUp={() => setShowOriginal(false)}
-                                onMouseLeave={() => setShowOriginal(false)}
-                            >
-                                <EyeOff className="w-5 h-5 text-gray-600" />
-                            </button>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
 
-                {/* Controls Panel */}
-                <div className={`${isControlsOpen ? 'block' : 'hidden'} md:block w-full md:w-80 p-4 md:p-6 bg-gray-50`}>
-                    <div className="space-y-6">
-                        {/* Tabs */}
-                        <div className="flex gap-2 pb-4 border-b">
-                            <TabButton icon={Sliders} label="Adjust" tabName="adjust" />
-                            <TabButton icon={Sparkles} label="Effects" tabName="effects" />
-                            <TabButton icon={Crop} label="Transform" tabName="transform" />
-                        </div>
+                    {/* Controls Panel */}
+                    <div className={`${isControlsOpen ? 'block' : 'hidden'} md:block w-full md:w-96 p-4 md:p-6 bg-gray-100 md:min-h-[calc(100vh-88px)] md:border-l`}>
+                        <div className="space-y-6 sticky top-6">
+                            {/* Tabs */}
+                            <div className="flex justify-evenly pb-4 border-b">
+                                <TabButton icon={Sliders} label="Adjust" tabName="adjust" />
+                                <TabButton icon={Sparkles} label="Effects" tabName="effects" />
+                                <TabButton icon={Crop} label="Transform" tabName="transform" />
+                            </div>
 
-                        {/* Controls */}
-                        {renderControls()}
+                            {/* Controls */}
+                            {renderControls()}
 
-                        {/* Action Buttons */}
-                        <div className="space-y-3 pt-6 border-t">
-                            <button
-                                onClick={resetFilters}
-                                className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
-                            >
-                                <RotateCcw className="w-4 h-4" />
-                                Reset All
-                            </button>
+                            {/* Action Buttons */}
+                            <div className="space-y-3 pt-6 border-t">
+                                <button
+                                    onClick={resetFilters}
+                                    className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                                >
+                                    <RotateCcw className="w-4 h-4" />
+                                    Reset All
+                                </button>
 
-                            <button
-                                onClick={downloadImage}
-                                disabled={!image}
-                                className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                <Download className="w-4 h-4" />
-                                Download Image
-                            </button>
+                                <button
+                                    onClick={downloadImage}
+                                    disabled={!image}
+                                    className="flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <Download className="w-4 h-4" />
+                                    Download Image
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };
