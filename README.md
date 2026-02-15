@@ -86,8 +86,11 @@ Steps to contribute:
 
 ### Harshit Patle
 **[YouTube](https://www.youtube.com/@coding_version)** 
+
 **[Instagram](https://www.instagram.com/coding_version)**  
+
 **[LinkedIn](https://www.linkedin.com/in/harshit-patle)**  
+
 **[GitHub](https://github.com/Harshit-Patle)**
 
 
